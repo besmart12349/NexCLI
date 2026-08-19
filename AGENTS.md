@@ -1,30 +1,42 @@
 # AGENTS.md
 
-## Cursor Cloud specific instructions
+## Overview
 
-### Overview
+NexCLI is a single-package TypeScript coding agent for the NexLM family of LLMs. It is maintained by Arsis Technologys. There are no databases, Docker services, or extra daemons required for local development. See `README.md` for user documentation.
 
-Grok CLI (`@vibe-kit/grok-cli`) is a single-package TypeScript CLI tool — no databases, Docker, or background services. See `README.md` for full documentation and usage.
+## Commands
 
-### Quick reference
+```bash
+bun install
+bun run dev
+bun run build
+bun run start
+bun run typecheck
+bun run lint
+bun run test
+```
 
+Use `bun run typecheck` as the primary code quality check. The CLI binary name is `nex`.
 
-| Action        | Command                                                               |
-| ------------- | --------------------------------------------------------------------- |
-| Install deps  | `bun install` (installs Husky; pre-commit runs Biome on staged files) |
-| Typecheck     | `bun run typecheck`                                                   |
-| Build         | `bun run build`                                                       |
-| Run built CLI | `node dist/index.js`                                                  |
-| Headless mode | `node dist/index.js --prompt "..." --max-tool-rounds N`               |
-| CLI help      | `node dist/index.js --help`                                           |
+## Environment
 
+| Variable | Required | Description |
+| --- | --- | --- |
+| `NEX_API_KEY` | Yes | API key for NexLM |
+| `NEX_BASE_URL` | No | Custom API endpoint |
+| `NEX_MODEL` | No | Model override |
+| `NEX_MAX_TOKENS` | No | Max tokens per response (default: 16384) |
+| `TELEGRAM_BOT_TOKEN` | No | Telegram remote control |
 
-### Known issues
+User settings live in `~/.nex/user-settings.json`. Project settings live in `.nex/settings.json`.
 
-- **ESLint config is broken**: The repo has `.eslintrc.js` (legacy format) but uses ESLint 9 (`^9.31.0`) + `@typescript-eslint` v8, which require flat config (`eslint.config.js`). Additionally, `.eslintrc.js` uses `module.exports` (CJS) but `package.json` has `"type": "module"` (ESM). Running `bun run lint` will fail. Use `bun run typecheck` as the primary code quality check (this is also what CI enforces).
-- **Dev mode (`bun run dev` / `bun run dev:node`) fails at runtime**: `src/utils/model-config.ts` imports TypeScript interfaces (`UserSettings`, `ProjectSettings`) as value imports from `settings-manager.ts`. These type-only exports are erased at runtime by Bun and tsx, causing `SyntaxError: export '...' not found`. The fix is to use `import type` syntax, but this is a pre-existing repo issue. **Workaround**: build first (`bun run build`), then run the compiled version (`node dist/index.js`).
+## Platform notes
 
-### Environment
+- Installer support: `darwin-arm64`, `darwin-x64`, `linux-x64`, `linux-arm64`, `windows-x64`.
+- Bun currently requires macOS 13.0 or later.
+- Sandbox and computer-use features require Apple Silicon and macOS 14+.
+- Intel Macs can install via the script, then run from a source build when no `darwin-x64` release binary exists.
 
-- **Bun** must be installed (not pre-installed on Cloud VMs). The update script handles this.
-- `GROK_API_KEY` environment variable is required for API calls. Set it as a secret.
+## Branding
+
+Use **NexCLI** for the product, **nex** for the command, and **NexLM** for the model family. Do not refer to this project as Grok CLI.
