@@ -1,7 +1,7 @@
 {
-  "name": "grok-dev",
+  "name": "nexcli",
   "version": "1.1.7",
-  "description": "An open-source AI coding agent powered by Grok, built with Bun and OpenTUI.",
+  "description": "A coding agent command line interface for the NexLM family of LLMs, built with Bun and OpenTUI.",
   "type": "module",
   "main": "dist/index.js",
   "exports": {
@@ -11,12 +11,12 @@
     }
   },
   "bin": {
-    "grok": "dist/index.js"
+    "nex": "dist/index.js"
   },
   "scripts": {
     "dev": "bun run src/index.ts",
     "build": "tsc",
-    "build:binary": "bun build --compile --outfile dist/grok-standalone ./src/index.ts",
+    "build:binary": "bun build --compile --outfile dist/nex-standalone ./src/index.ts",
     "start": "bun run dist/index.js",
     "typecheck": "tsc --noEmit",
     "test": "bunx vitest run",
@@ -34,14 +34,19 @@
   "keywords": [
     "cli",
     "agent",
-    "grok",
+    "nexlm",
+    "nexcli",
     "ai",
     "coding",
     "terminal",
     "opentui"
   ],
-  "author": "Vibe Kit",
+  "author": "Arsis Technologys",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/besmart12349/NexCLI.git"
+  },
   "dependencies": {
     "@ai-sdk/mcp": "^1.0.25",
     "@ai-sdk/provider-utils": "^4.0.21",
